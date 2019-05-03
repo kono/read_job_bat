@@ -27,7 +27,7 @@ module ReadJobBat
           ar.push get_fullpath_bat(drive, dir, line.split("\s")[1])
         end
       end
-      ar
+      ar.uniq
     end
 
     def mainline(batfile)
