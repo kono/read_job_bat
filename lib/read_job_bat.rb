@@ -11,7 +11,6 @@ module ReadJobBat
       s.split("\n").each do |line| 
         drive = line if line =~/[A-Za-z]\:/
         dir = line.split("\s")[1] if line.downcase =~ /^cd /
-        p dir
         if line.downcase =~ /^call/
           if drive=="" and dir==""
             dirname="\.\\"
@@ -21,7 +20,6 @@ module ReadJobBat
           ar.push dirname + line.split("\s")[1]
         end
       end
-      p ar
       ar
     end
   end 
