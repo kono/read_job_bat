@@ -1,4 +1,4 @@
-require "read_job_bat/version"
+require_relative "read_job_bat/version"
 
 module ReadJobBat
   class Error < StandardError; end
@@ -30,5 +30,27 @@ module ReadJobBat
       ar
     end
 
+    def mainline(batfile)
+      f = File.open(batfile)
+      input = f.read
+      f.close
+      output(batfile,readbat(input))
+    end
+
+    def output(batfile, items)
+      items.each do |bat|
+        puts batfile + "\t" + bat
+      end
+    end
+
   end 
+end
+
+if $0==__FILE__
+  if ARGV.length < 1
+    puts "Specify input bat"
+    exit(1)
+  end 
+  o=ReadJobBat::ReadJobBat.new
+  o.mainline(ARGV[0])
 end
