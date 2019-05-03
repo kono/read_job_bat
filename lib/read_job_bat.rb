@@ -46,11 +46,10 @@ module ReadJobBat
   end 
 end
 
-if $0==__FILE__
-  if ARGV.length < 1
-    puts "Specify input bat"
-    exit(1)
-  end 
-  o=ReadJobBat::ReadJobBat.new
-  o.mainline(ARGV[0])
-end
+## Entry point
+if ARGV.length < 1
+  puts "Specify input bat"
+  exit(1)
+end 
+o=ReadJobBat::ReadJobBat.new
+o.mainline(ARGV[0])
