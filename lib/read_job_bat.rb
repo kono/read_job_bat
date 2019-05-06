@@ -17,12 +17,29 @@ module ReadJobBat
       dirname + bat
     end
 
+    def get_pushd(drive_dir, pushpopd)
+      pushpopd.push drive_dir
+      drive = drive_dir.split("\\")[0]
+      dir   = drive_dir.split("\:")[1]
+      [drive, dir, pushpopd]
+    end
+    
+    def get_popd(pushpopd)
+      drive_dir = pushpopd.pop
+      drive = drive_dir.split("\\")[0]
+      dir   = drive_dir.split("\:")[1]
+      [drive, dir, pushpopd]
+    end
+
     def readbat(s)
       ar=[]
+      pushpopd = []
       drive=dir=""
       s.split("\n").each do |line| 
         drive = line if line =~/[A-Za-z]\:/ and line.strip.length==2
         dir = line.split("\s")[1] if line.downcase =~ /^cd /
+        drive, dir, push_popd = get_pushd(line.split("\s")[1], pushpopd) if line.downcase =~/^pushd /
+        drive, dir, push_popd = get_popd(pushpopd)   if line.downcase =~/^popd/
         if (line.downcase =~ /^call/) or (line.downcase =~ /^ruby/)
           ar.push get_fullpath_bat(drive, dir, line.split("\s")[1])
         end
