@@ -28,6 +28,16 @@ class ReadJobBatTest < Test::Unit::TestCase
     call graultgarply.bat
     EOS
     assert target.readbat(input) == ['E:\TEST4\bat\graultgarply.bat']
+    input =<<~EOS
+    F:
+    cd \\TEST5
+    call foo.bat
+    pushd E:\\TEST6\\bat
+    call bar.bat
+    popd
+    call baz.bat
+    EOS
+    assert target.readbat(input) == ['F:\TEST5\foo.bat','E:\TEST6\bat\bar.bat','F:\TEST5\baz.bat']
   end
 
   def test_that_it_can_read_bat_files
