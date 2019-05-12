@@ -15,7 +15,7 @@ class ReadJobBatTest < Test::Unit::TestCase
     cd \\TEST\\bat
     call foobar.bat
     EOS
-    assert @target.readbat(input) == ['E:\TEST\bat\foobar.bat']
+    assert @target.read_buffer(input) == ['E:\TEST\bat\foobar.bat']
   end
 
   def test_that_it_can_read_bat_strings2
@@ -24,14 +24,14 @@ class ReadJobBatTest < Test::Unit::TestCase
     cd \\TEST2\\bat
     call bazqux.bat
     EOS
-    assert @target.readbat(input) == ['E:\TEST2\bat\bazqux.bat']
+    assert @target.read_buffer(input) == ['E:\TEST2\bat\bazqux.bat']
   end
 
   def test_that_it_can_read_bat_strings3
     input =<<~EOS
     call E:\\TEST3\\bat\\quuxcorge.bat
     EOS
-    assert @target.readbat(input) == ['E:\TEST3\bat\quuxcorge.bat']
+    assert @target.read_buffer(input) == ['E:\TEST3\bat\quuxcorge.bat']
   end
 
   def test_that_it_can_read_bat_strings4
@@ -39,7 +39,7 @@ class ReadJobBatTest < Test::Unit::TestCase
     pushd E:\\TEST4\\bat
     call graultgarply.bat
     EOS
-    assert @target.readbat(input) == ['E:\TEST4\bat\graultgarply.bat']
+    assert @target.read_buffer(input) == ['E:\TEST4\bat\graultgarply.bat']
   end
 
   def test_that_it_can_read_bat_strings5
@@ -52,14 +52,14 @@ class ReadJobBatTest < Test::Unit::TestCase
     popd
     call baz.bat
     EOS
-    assert @target.readbat(input) == ['F:\TEST5\foo.bat','E:\TEST6\bat\bar.bat','F:\TEST5\baz.bat']
+    assert @target.read_buffer(input) == ['F:\TEST5\foo.bat','E:\TEST6\bat\bar.bat','F:\TEST5\baz.bat']
   end
 
   def test_that_it_can_read_bat_files
     f = File.open('test/simple_testbat.txt')
     s=f.read
     f.close
-    assert @target.readbat(s) == ['E:\TEST\bat\foobar.bat']
+    assert @target.read_buffer(s) == ['E:\TEST\bat\foobar.bat']
     
   end
 end

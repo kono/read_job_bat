@@ -31,7 +31,7 @@ module ReadJobBat
       [drive, dir]
     end
 
-    def readbat(s)
+    def read_buffer(s)
       ar=[]
       pushpopd = []
       drive=dir=""
@@ -51,7 +51,7 @@ module ReadJobBat
       f = File.open(batfile)
       input = f.read
       f.close
-      output(batfile,readbat(input))
+      output(batfile,read_buffer(input))
     end
 
     def output(batfile, items)
