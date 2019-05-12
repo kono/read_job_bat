@@ -5,45 +5,44 @@ class ReadJobBatTest < Test::Unit::TestCase
     refute_nil ::ReadJobBat::VERSION
   end
 
+  def setup
+      @target = ReadJobBat::ReadJobBat.new
+  end
+
   def test_that_it_can_read_bat_strings1
-    target = ReadJobBat::ReadJobBat.new
     input =<<~EOS
     E:
     cd \\TEST\\bat
     call foobar.bat
     EOS
-    assert target.readbat(input) == ['E:\TEST\bat\foobar.bat']
+    assert @target.readbat(input) == ['E:\TEST\bat\foobar.bat']
   end
 
   def test_that_it_can_read_bat_strings2
-    target = ReadJobBat::ReadJobBat.new
     input =<<~EOS
     E:
     cd \\TEST2\\bat
     call bazqux.bat
     EOS
-    assert target.readbat(input) == ['E:\TEST2\bat\bazqux.bat']
+    assert @target.readbat(input) == ['E:\TEST2\bat\bazqux.bat']
   end
 
   def test_that_it_can_read_bat_strings3
-    target = ReadJobBat::ReadJobBat.new
     input =<<~EOS
     call E:\\TEST3\\bat\\quuxcorge.bat
     EOS
-    assert target.readbat(input) == ['E:\TEST3\bat\quuxcorge.bat']
+    assert @target.readbat(input) == ['E:\TEST3\bat\quuxcorge.bat']
   end
 
   def test_that_it_can_read_bat_strings4
-    target = ReadJobBat::ReadJobBat.new
     input =<<~EOS
     pushd E:\\TEST4\\bat
     call graultgarply.bat
     EOS
-    assert target.readbat(input) == ['E:\TEST4\bat\graultgarply.bat']
+    assert @target.readbat(input) == ['E:\TEST4\bat\graultgarply.bat']
   end
 
   def test_that_it_can_read_bat_strings5
-    target = ReadJobBat::ReadJobBat.new
     input =<<~EOS
     F:
     cd \\TEST5
@@ -53,15 +52,14 @@ class ReadJobBatTest < Test::Unit::TestCase
     popd
     call baz.bat
     EOS
-    assert target.readbat(input) == ['F:\TEST5\foo.bat','E:\TEST6\bat\bar.bat','F:\TEST5\baz.bat']
+    assert @target.readbat(input) == ['F:\TEST5\foo.bat','E:\TEST6\bat\bar.bat','F:\TEST5\baz.bat']
   end
 
   def test_that_it_can_read_bat_files
-    target = ReadJobBat::ReadJobBat.new
     f = File.open('test/simple_testbat.txt')
     s=f.read
     f.close
-    assert target.readbat(s) == ['E:\TEST\bat\foobar.bat']
+    assert @target.readbat(s) == ['E:\TEST\bat\foobar.bat']
     
   end
 end
