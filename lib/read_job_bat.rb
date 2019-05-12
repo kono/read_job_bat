@@ -47,7 +47,7 @@ module ReadJobBat
       ar.uniq
     end
 
-    def mainline(batfile)
+    def read_bat(batfile)
       f = File.open(batfile)
       input = f.read
       f.close
@@ -69,4 +69,4 @@ if ARGV.length < 1
   exit(1)
 end 
 o=ReadJobBat::ReadJobBat.new
-o.mainline(ARGV[0])
+o.read_bat(ARGV[0])
