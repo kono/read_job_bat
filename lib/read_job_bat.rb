@@ -48,14 +48,20 @@ module ReadJobBat
     end
 
     def read_bat(batfile)
-      f = File.open(batfile)
-      input = f.read
-      f.close
+      begin
+        f = File.open(batfile)
+        input = f.read
+        f.close
+      rescue
+        STDERR.puts "Can't open batfile: #{batfile}"
+        input = ""
+      end
       output(batfile,read_buffer(input))
     end
 
     def output(batfile, items)
       items.each do |bat|
+        read_bat(bat) if bat =~ /.*\.bat$/
         puts batfile + "\t" + bat
       end
     end
