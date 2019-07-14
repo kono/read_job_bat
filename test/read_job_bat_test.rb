@@ -16,6 +16,7 @@ class ReadJobBatTest < Test::Unit::TestCase
     call foobar.bat
     EOS
     assert @target.read_buffer(input) == ['E:\TEST\bat\foobar.bat']
+    # assert @target.output('test.bat', @target.read_buffer(input)) == 'test.bat' + "\t" + 'E:\TEST\bat\foobar.bat'
   end
 
   def test_that_it_can_read_bat_strings2
